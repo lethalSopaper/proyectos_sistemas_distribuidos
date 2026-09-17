@@ -61,9 +61,7 @@ int main(int argc, char **argv) {
         }
     }
     else {
-        // Lógica para los procesos 1 en adelante
         // Cada proceso puede calcular exactamente cuántos elementos va a recibir
-        // Ej. El proceso 1 recibe 5. El proceso 2 recibe 6...
         int recv_size = NELEMENTS + (id - 1);
         int send_size = recv_size + 1; // El tamaño de salida incluye el elemento nuevo
 
