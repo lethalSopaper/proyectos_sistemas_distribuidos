@@ -7,7 +7,7 @@
 
 int main(int argc, char **argv) {
     int id, np;
-
+    
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &id);
     MPI_Comm_size(MPI_COMM_WORLD, &np);
@@ -16,20 +16,24 @@ int main(int argc, char **argv) {
     int *A = NULL;
     float *B = NULL;
 
+    // Obtener el nombre del nodo
+    char processor_name[MPI_MAX_PROCESSOR_NAME];
+    int name_len;
+    MPI_Get_processor_name(processor_name, &name_len);
     if (id == 0) {
         srand(time(NULL));
         // El proceso 0 inicializa con 5 elementos
         A = (int*)malloc(NELEMENTS * sizeof(int));
         B = (float*)malloc(NELEMENTS * sizeof(float));
 
-        printf("Proceso %d: Arreglo A inicial: ", id);
+        printf("Proceso %d en nodo %s: Arreglo A inicial: ", id, processor_name);
         for (int i = 0; i < NELEMENTS; i++) {
             A[i] = rand() % 50;
             printf("%d ", A[i]);
         }
         printf("\n");
 
-        printf("Proceso %d: Arreglo B inicial: ", id);
+        printf("Proceso %d en nodo %s: Arreglo B inicial: ", id, processor_name);
         for (int i = 0; i < NELEMENTS; i++) {
             B[i] = (float)(rand() % 50) / 10.0;
             printf("%.1f ", B[i]);
@@ -51,11 +55,11 @@ int main(int argc, char **argv) {
             MPI_Recv(B, final_size, MPI_FLOAT, np - 1, 1, MPI_COMM_WORLD, &status);
 
             printf("--- RESULTADOS FINALES AL REGRESAR AL PROCESO 0 ---\n");
-            printf("Proceso %d: Arreglo A final: ", id);
+            printf("Proceso %d en nodo %s: Arreglo A final: ", id, processor_name);
             for (int i = 0; i < final_size; i++) printf("%d ", A[i]);
             printf("\n");
 
-            printf("Proceso %d: Arreglo B final: ", id);
+            printf("Proceso %d en nodo %s: Arreglo B final: ", id, processor_name);
             for (int i = 0; i < final_size; i++) printf("%.1f ", B[i]);
             printf("\n");
         }
@@ -77,11 +81,11 @@ int main(int argc, char **argv) {
         A[recv_size] = id;                // Insertamos el id del proceso en A
         B[recv_size] = (float)id + 0.5;   // Insertamos un valor flotante basado en el id en B
 
-        printf("Proceso %d: Arreglo A modificado: ", id);
+        printf("Proceso %d en nodo %s: Arreglo A modificado: ", id, processor_name);
         for (int j = 0; j < send_size; j++) printf("%d ", A[j]);
         printf("\n");
 
-        printf("Proceso %d: Arreglo B modificado: ", id);
+        printf("Proceso %d en nodo %s: Arreglo B modificado: ", id, processor_name);
         for (int j = 0; j < send_size; j++) printf("%.1f ", B[j]);
         printf("\n\n");
         fflush(stdout);

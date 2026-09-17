@@ -49,9 +49,12 @@ int main(int argc, char **argv) {
     for (int i = 0; i < M; i++) {
         local_sum += local_row[i];
     }
-
+    // Obtener el nombre del nodo
+    char processor_name[MPI_MAX_PROCESSOR_NAME];
+    int name_len;
+    MPI_Get_processor_name(processor_name, &name_len);
     // Imprimimos para evidenciar que el trabajo está distribuido
-    printf("Proceso %d calculó la suma de su renglón: %d\n", id, local_sum);
+    printf("Proceso %d en nodo %s calculó la suma de su renglón: %d\n", id, processor_name, local_sum);
     fflush(stdout); // Limpiamos el buffer para que se imprima ordenado en consola
 
     // Todos mandan su 'local_sum' (1 elemento) al proceso 0, quien los guarda en 'all_sums'
