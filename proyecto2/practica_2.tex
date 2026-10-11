@@ -4,14 +4,67 @@
 
 \input{template/listings_config.tex}
 
-\input{template/header.tex}
+% \input{template/header.tex}
 
 \begin{document}
 
 \input{template/title_page.tex}
 
-\section{1st section}
+\section*{Objetivo}
 
-\input{template/biblio.tex}
+Comprender algunos de los algoritmos de sincronización para manejo de relojes sicos y lógicos en un Sistema Distribuido.
+
+\section*{Desarrollo}
+
+Realizar las siguientes actividades en equipos de 2 o tres personas. Entregar códigos fuente, así como un documento con los diagramas del ambiente sugeridos para cada actividad y capturas de pantalla que muestren el funcionamiento (se debe visualizar fecha del sistema, y en el caso de la actividad 1 el nombre de las máquinas).
+
+\section*{Actividad 1}
+
+De acuerdo con el algoritmo de Cristian visto en clase, implementarlo usando 3 clientes, que se encuentren en máquinas diferentes, estas pueden ser sicas o virtuales y se vea una diferencia de tiempo. Agregar al código lo necesario para considerar cuando C > Cc o C<Cc. Utilizar sockets.
+
+\subsection*{Solución}
+
+Utilizamos un ambiente compuesto de 3 máquinas virtuales con una distribución fedora server, por medio de Virtual Machine Manager, en donde se tiene un servidor y 3 clientes, cada uno con una diferencia de tiempo específica. El servidor se encarga de enviar la hora a los clientes, y estos a su vez ajustan su hora de acuerdo a la hora recibida del servidor. A continuación se muestra la salida para cada uno de los nodos del sistema, para el servidor:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{server_cristian.png}
+    \caption{Ejecución del servidor para la actividad 1.}
+    \label{fig:servidor}
+\end{figure}
+
+Y para los 3 clientes:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{cliente_cristian_1.png}
+    \caption{Ejecución del cliente 1 para la actividad 1.}
+    \label{fig:cliente1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{cliente_cristian_2.png}
+    \caption{Ejecución del cliente 2 para la actividad 1.}
+    \label{fig:cliente2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{cliente_cristian_3.png}
+    \caption{Ejecución del cliente 3 para la actividad 1.}
+    \label{fig:cliente3}
+\end{figure}
+
+
+\section*{Actividad 2}
+
+Para la implementación del algoritmo de relojes lógicos de Lamport visto en clase, que se basa en el ambiente de eventos establecido en la Figura 1. Se pide modiﬁcarlo utilizando un ambiente sugerido con 5 procesos y cada proceso tenga de 5 a 4 eventos. Agregar el diagrama de su ambiente.
+
+\section*{Actividad 3}
+
+Con la idea anterior implementar una solución al algoritmo de relojes vectoriales, usar el ambiente planteado en la actividad anterior. Entregar la ﬁgura con el ambiente sugerido que se programará y con el desarrollo del algoritmo, es decir el reloj vectorial de los eventos
+
+% \input{template/biblio.tex}
 
 \end{document}
