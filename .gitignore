@@ -5,11 +5,8 @@
 *.out
 *.xml
 *.run
-*.tex
 cifrado_cesar
-img/
-template/
-/template/
 *.txt
 #Exclude executables
 *.exe
+*.qcow2
