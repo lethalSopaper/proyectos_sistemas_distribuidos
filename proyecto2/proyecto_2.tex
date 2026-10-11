@@ -1,0 +1,310 @@
+\documentclass[12pt, letterpaper]{article}
+
+\input{template/preamble.tex}
+
+\input{template/listings_config.tex}
+
+% \input{template/header.tex}
+
+\begin{document}
+
+\input{template/title_page.tex}
+
+\section*{Objetivo}
+
+Comprender algunos de los algoritmos de sincronización para manejo de relojes sicos y lógicos en un Sistema Distribuido.
+
+\section*{Desarrollo}
+
+Realizar las siguientes actividades en equipos de 2 o tres personas. Entregar códigos fuente, así como un documento con los diagramas del ambiente sugeridos para cada actividad y capturas de pantalla que muestren el funcionamiento (se debe visualizar fecha del sistema, y en el caso de la actividad 1 el nombre de las máquinas).
+
+\section*{Actividad 1}
+
+De acuerdo con el algoritmo de Cristian visto en clase, implementarlo usando 3 clientes, que se encuentren en máquinas diferentes, estas pueden ser sicas o virtuales y se vea una diferencia de tiempo. Agregar al código lo necesario para considerar cuando C > Cc o C<Cc. Utilizar sockets.
+
+\subsection*{Solución}
+
+Utilizamos un ambiente compuesto de 4 máquinas virtuales con una distribución fedora server, por medio de Virtual Machine Manager, en donde se tiene un servidor y 3 clientes, cada uno con una diferencia de tiempo específica. El servidor se encarga de enviar la hora a los clientes, y estos a su vez ajustan su hora de acuerdo a la hora recibida del servidor. A continuación se muestra la salida para cada uno de los nodos del sistema, para el servidor:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{server_cristian.png}
+    \caption{Ejecución del servidor para la actividad 1.}
+    \label{fig:servidor}
+\end{figure}
+
+Como puede verse en la figura \ref{fig:servidor}, el servidor una vez recibe la petición de los clientes, este envía el calculo de la hora a partir del desfase de tiempo que tiene cada cliente. Para asegurar que los clientes ajusten su hora de acuerdo a la hora recibida del servidor, se implementó un frenado acorde a la diferencia de tiempo que tiene cada cliente, es decir, si el cliente tiene una diferencia de tiempo de 5 segundos, este se frenará 5 segundos antes de ajustar su hora.
+
+A continuación se muestra la salida para cada uno de los clientes, donde se puede observar que cada uno ajusta su hora de acuerdo a la hora recibida del servidor.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{cliente_cristian_1.png}
+    \caption{Ejecución del cliente 1 para la actividad 1.}
+    \label{fig:cliente1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{cliente_cristian_2.png}
+    \caption{Ejecución del cliente 2 para la actividad 1.}
+    \label{fig:cliente2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{cliente_cristian_3.png}
+    \caption{Ejecución del cliente 3 para la actividad 1.}
+    \label{fig:cliente3}
+\end{figure}
+
+\subsection*{Análisis de resultados}
+
+como puede observarse en las figuras \ref{fig:cliente1}, \ref{fig:cliente2} y \ref{fig:cliente3}, cada uno de los clientes ajusta su hora de acuerdo a la hora recibida del servidor. El cliente uno se atrasó un total de 15 segundos, el cliente dos se adelanto un total de 8 segundos debido a que el valor que se le ingreso fue de -8 segundos y el tercer cliente se adelanto un total de 4 segundos.
+
+Esto permite que todos los clientes tengan una hora sincronizada con el servidor, lo que es fundamental para el correcto funcionamiento de un sistema distribuido.
+
+\section*{Actividad 2}
+
+Para la implementación del algoritmo de relojes lógicos de Lamport visto en clase, que se basa en el ambiente de eventos establecido en la figura. Se pide modiﬁcarlo utilizando un ambiente sugerido con 5 procesos y cada proceso tenga de 5 a 4 eventos. Agregar el diagrama de su ambiente.
+
+\begin{figure}[H]
+    \centering
+        \begin{tikzpicture}[xscale=1.1, yscale=1.6, >=stealth]
+            % Líneas de tiempo para los procesos
+            \foreach \y/\p in {4/P1, 3/P2, 2/P3, 1/P4, 0/P5} {
+                \draw[thick, Black!80, dotted] (0,\y) node[left, text=black, font=\bfseries] {\p} -- (13,\y);
+            }
+
+            % Estilos
+            \tikzstyle{eventop1}=[circle, fill=NavyBlue!60!white, draw=NavyBlue!60!black, thick, inner sep=1pt, minimum size=18pt]
+            \tikzstyle{eventop2}=[circle, fill=YellowOrange!60!white, draw=YellowOrange!60!black, thick, inner sep=1pt, minimum size=18pt]
+            \tikzstyle{eventop3}=[circle, fill=Periwinkle!60!white, draw=Periwinkle!60!black, thick, inner sep=1pt, minimum size=18pt]
+            \tikzstyle{eventop4}=[circle, fill=LimeGreen!60!white, draw=LimeGreen!60!black, thick, inner sep=1pt, minimum size=18pt]
+            \tikzstyle{eventop5}=[circle, fill=RedViolet!60!white, draw=RedViolet!60!black, thick, inner sep=1pt, minimum size=18pt]
+            \tikzstyle{lbl}=[above=8pt, font=\scriptsize, text=teal] % Espacio para escribir los relojes
+
+            % --- PROCESO 1 ---
+            \node[eventop1] (a) at (1,4) {a};
+            \node[lbl] at (a) {1};
+
+            \node[eventop1] (b) at (3,4) {b};
+            \node[lbl] at (b) {2};
+
+            \node[eventop1] (c) at (6,4) {c};
+            \node[lbl] at (c) {3};
+
+            \node[eventop1] (d) at (10.5,4) {d};
+            \node[lbl] at (d) {5};
+
+            % --- PROCESO 2 ---
+            \node[eventop2] (e) at (1.5,3) {e};
+            \node[lbl] at (e) {1};
+
+            \node[eventop2] (f) at (4.5,3) {f};
+            \node[lbl] at (f) {3};
+
+            \node[eventop2] (g) at (6,3) {g};
+            \node[lbl] at (g) {4};
+
+            \node[eventop2] (h) at (7.5,3) {h};
+            \node[lbl] at (h) {5};
+
+            \node[eventop2] (i) at (11,3) {i};
+            \node[lbl] at (i) {6};
+
+            % --- PROCESO 3 ---
+            \node[eventop3] (j) at (2.5,2) {j};
+            \node[lbl] at (j) {2};
+
+            \node[eventop3] (k) at (4.5,2) {k};
+            \node[lbl] at (k) {3};
+
+            \node[eventop3] (l) at (9.5,2) {l};
+            \node[lbl] at (l) {4};
+
+            \node[eventop3] (m) at (11.5,2) {m};
+            \node[lbl] at (m) {5};
+
+            % --- PROCESO 4 ---
+            \node[eventop4] (n) at (1,1) {n};
+            \node[lbl] at (n) {1};
+
+            \node[eventop4] (o) at (8.5,1) {o};
+            \node[lbl] at (o) {6};
+
+            \node[eventop4] (p) at (9.5,1) {p};
+            \node[lbl] at (p) {7};
+
+            \node[eventop4] (q) at (10.5,1) {q};
+            \node[lbl] at (q) {8};
+
+            \node[eventop4] (r) at (12,1) {r};
+            \node[lbl] at (r) {9};
+
+            % --- PROCESO 5 ---
+            \node[eventop5] (s) at (1,0) {s};
+            \node[lbl] at (s) {1};
+
+            \node[eventop5] (t) at (4,0) {t};
+            \node[lbl] at (t) {2};
+
+            \node[eventop5] (u) at (7,0) {u};
+            \node[lbl] at (u) {3};
+
+            \node[eventop5] (v) at (11.5,0) {v};
+            \node[lbl] at (v) {9};
+
+            % --- MENSAJES (Flechas) ---
+            \draw[->, thick, red] (b) -- (f) node[midway, above right, xshift=2pt] {$T_s=2$};
+            \draw[->, thick, red] (h) -- (o) node[midway, left, xshift=2pt] {$T_s=5$};
+            \draw[->, thick, red] (s) -- (j) node[midway, right, xshift=-2pt] {$T_s=1$};
+            \draw[->, thick, red] (l) -- (d) node[midway, left, xshift=-2pt] {$T_s=4$};
+            \draw[->, thick, red] (q) -- (v) node[midway, below left, xshift=2pt] {$T_s=8$};
+        \end{tikzpicture}
+    \caption{Ambiente sugerido para la actividad 2.}
+    \label{fig:ambiente_actividad2}
+\end{figure}
+
+\subsection*{Resultados}
+
+Para validar el comportamiento del diagrama de la figura \ref{fig:ambiente_actividad2}, se implementó el algoritmo de Lamport en un programa de python. Este programa define los 5 procesesos con sus respectivvos eventos en funciones separadas, y cada acción del algoritmo de Lamport (envio local, envio entre procesos, y recepción de mensajes) se implementa en cada función. A continuación se muestra la salida del programa donde se observa la secuencia de eventos y el calculo de los relojes lógicos para cada evento:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{lamport.png}
+    \caption{Ejecución del cliente 1 para la actividad 1.}
+    \label{fig:ejecucion_lamport}
+\end{figure}
+
+\subsection*{Análisis de resultados}
+
+En la figura \ref{fig:ejecucion_lamport} se puede observar que los relojes lógicos de cada evento son consistentes con el diagrama de la figura \ref{fig:ambiente_actividad2}, es decir, los eventos que ocurren antes de otros tienen un reloj lógico menor, y los eventos que ocurren después tienen un reloj lógico mayor.
+
+\section*{Actividad 3}
+
+Con la idea anterior implementar una solución al algoritmo de relojes vectoriales, usar el ambiente planteado en la actividad anterior. Entregar la ﬁgura con el ambiente sugerido que se programará y con el desarrollo del algoritmo, es decir el reloj vectorial de los eventos.
+
+\begin{figure}[H]
+    \centering
+        \begin{tikzpicture}[xscale=1.1, yscale=1.6, >=stealth]
+            % Líneas de tiempo para los procesos
+            \foreach \y/\p in {4/P1, 3/P2, 2/P3, 1/P4, 0/P5} {
+                \draw[thick, Black!80, dotted] (0,\y) node[left, text=black, font=\bfseries] {\p} -- (13,\y);
+            }
+
+            % Estilos
+            \tikzstyle{eventop1}=[circle, fill=NavyBlue!60!white, draw=NavyBlue!60!black, thick, inner sep=1pt, minimum size=18pt]
+            \tikzstyle{eventop2}=[circle, fill=YellowOrange!60!white, draw=YellowOrange!60!black, thick, inner sep=1pt, minimum size=18pt]
+            \tikzstyle{eventop3}=[circle, fill=Periwinkle!60!white, draw=Periwinkle!60!black, thick, inner sep=1pt, minimum size=18pt]
+            \tikzstyle{eventop4}=[circle, fill=LimeGreen!60!white, draw=LimeGreen!60!black, thick, inner sep=1pt, minimum size=18pt]
+            \tikzstyle{eventop5}=[circle, fill=RedViolet!60!white, draw=RedViolet!60!black, thick, inner sep=1pt, minimum size=18pt]
+            \tikzstyle{lbl}=[above=8pt, font=\tiny, text=teal] % Espacio para escribir los relojes
+
+            % --- PROCESO 1 ---
+            \node[eventop1] (a) at (1,4) {a};
+            \node[lbl] at (a) {[1,0,0,0,0]};
+
+            \node[eventop1] (b) at (3,4) {b};
+            \node[lbl] at (b) {[2,0,0,0,0]};
+
+            \node[eventop1] (c) at (6,4) {c};
+            \node[lbl] at (c) {[3,0,0,0,0]};
+
+            \node[eventop1] (d) at (10.5,4) {d};
+            \node[lbl] at (d) {[4,0,3,0,1]};
+
+            % --- PROCESO 2 ---
+            \node[eventop2] (e) at (1.5,3) {e};
+            \node[lbl] at (e) {[0,1,0,0,0]};
+
+            \node[eventop2] (f) at (4.5,3) {f};
+            \node[lbl] at (f) {[2,2,0,0,0]};
+
+            \node[eventop2] (g) at (6,3) {g};
+            \node[lbl] at (g) {[2,3,0,0,0]};
+
+            \node[eventop2] (h) at (7.5,3) {h};
+            \node[lbl] at (h) {[2,4,0,0,0]};
+
+            \node[eventop2] (i) at (11,3) {i};
+            \node[lbl] at (i) {[2,5,0,0,0]};
+
+            % --- PROCESO 3 ---
+            \node[eventop3] (j) at (2.5,2) {j};
+            \node[lbl] at (j) {[0,0,1,0,1]};
+
+            \node[eventop3] (k) at (4.5,2) {k};
+            \node[lbl] at (k) {[0,0,2,0,1]};
+
+            \node[eventop3] (l) at (9.5,2) {l};
+            \node[lbl] at (l) {[0,0,3,0,1]};
+
+            \node[eventop3] (m) at (11.5,2) {m};
+            \node[lbl] at (m) {[0,0,4,0,1]};
+
+            % --- PROCESO 4 ---
+            \node[eventop4] (n) at (1,1) {n};
+            \node[lbl] at (n) {[0,0,0,1,0]};
+
+            \node[eventop4] (o) at (8.5,1) {o};
+            \node[lbl] at (o) {[2,4,0,2,0]};
+
+            \node[eventop4] (p) at (9.5,1) {p};
+            \node[lbl] at (p) {[2,4,0,3,0]};
+
+            \node[eventop4] (q) at (10.5,1) {q};
+            \node[lbl] at (q) {[2,4,0,4,0]};
+
+            \node[eventop4] (r) at (12,1) {r};
+            \node[lbl] at (r) {[2,4,0,5,0]};
+
+            % --- PROCESO 5 ---
+            \node[eventop5] (s) at (1,0) {s};
+            \node[lbl] at (s) {[0,0,0,0,1]};
+
+            \node[eventop5] (t) at (4,0) {t};
+            \node[lbl] at (t) {[0,0,0,0,2]};
+
+            \node[eventop5] (u) at (7,0) {u};
+            \node[lbl] at (u) {[0,0,0,0,3]};
+
+            \node[eventop5] (v) at (11.5,0) {v};
+            \node[lbl] at (v) {[2,4,0,4,4]};
+
+            % --- MENSAJES (Flechas) ---
+            \draw[->, thick, red] (b) -- (f) node[midway, above right, xshift=2pt] {\scriptsize$T_s=[2,0,0,0,0]$};
+            \draw[->, thick, red] (h) -- (o) node[midway, left, xshift=2pt] {\scriptsize$T_s=[2,4,0,0,0]$};
+            \draw[->, thick, red] (s) -- (j) node[midway, right, xshift=-2pt] {\scriptsize$T_s=[0,0,0,0,1]$};
+            \draw[->, thick, red] (l) -- (d) node[midway, left, xshift=-2pt] {\scriptsize$T_s=[0,0,3,0,1]$};
+            \draw[->, thick, red] (q) -- (v) node[midway, below left, xshift=2pt] {\scriptsize$T_s=[2,4,0,4,0]$};
+        \end{tikzpicture}
+    \caption{Ambiente sugerido para la actividad 3 con Relojes Vectoriales.}
+    \label{fig:ambiente_actividad3}
+\end{figure}
+
+\subsection*{Resultados}
+
+Con la implementación del algoritmo de relojes vectoriales, nos permitio a diferencia del algoritmo de Lamport, conocer que eventos de nuestro sistema distribuido eran concurrentes, es decir, que no existe relación alguna que provoque que un evento ocurra antes que otro, y por lo tanto no se puede determinar un orden entre ellos.
+
+Para su implementacion se partío del mismo programa de python que se utilizó para la actividad 2, y se modificó para que cada proceso mantenga un vector de relojes, y cada vez que ocurre un evento, se actualiza el vector de relojes correspondiente. A continuación se muestra la salida del programa donde se observa la secuencia de eventos y el calculo de los relojes vectoriales para cada evento:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{vectores.png}
+    \caption{Ejecución del cliente 1 para la actividad 1.}
+    \label{fig:ejecucion_vectores}
+\end{figure}
+
+\subsection*{Análisis de resultados}
+Con esta salida podemos comprobar que los eventos \textbf{a}, \textbf{b}, \textbf{n} y \textbf{s} son concurrentes ya que cumplen la condición de que los vectores son bidireccionales. En el diagrama puede verse la concurrecnia en otros eventos como \textbf{c} hacia cualquier evento de los procesos 2, 4 y 5.
+
+\section*{Conclusiones}
+
+Para finalizar, podemos concluir que los algoritmos de sincronización de relojes son fundamentales para el correcto funcionamiento de un sistema distribuido, ya que permiten mantener un orden lógico de los eventos y garantizar la consistencia de los datos impidiendo problemas de sincronización. La implementación de estos algoritmos nos permitió comprender mejor su funcionamiento y aplicarlos en situaciones prácticas. Además de repasar los conceptos teóricos vistos en clase, así como la importancia de elegir el algoritmo adecuado según las necesidades del sistema.
+
+
+
+% \input{template/biblio.tex}
+
+\end{document}
