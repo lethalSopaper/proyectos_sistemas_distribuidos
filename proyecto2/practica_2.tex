@@ -33,7 +33,9 @@ Utilizamos un ambiente compuesto de 4 máquinas virtuales con una distribución 
     \label{fig:servidor}
 \end{figure}
 
-Y para los 3 clientes:
+Como puede verse en la figura \ref{fig:servidor}, el servidor una vez recibe la petición de los clientes, este envía el calculo de la hora a partir del desfase de tiempo que tiene cada cliente. Para asegurar que los clientes ajusten su hora de acuerdo a la hora recibida del servidor, se implementó un frenado acorde a la diferencia de tiempo que tiene cada cliente, es decir, si el cliente tiene una diferencia de tiempo de 5 segundos, este se frenará 5 segundos antes de ajustar su hora.
+
+A continuación se muestra la salida para cada uno de los clientes, donde se puede observar que cada uno ajusta su hora de acuerdo a la hora recibida del servidor.
 
 \begin{figure}[H]
     \centering
@@ -55,6 +57,12 @@ Y para los 3 clientes:
     \caption{Ejecución del cliente 3 para la actividad 1.}
     \label{fig:cliente3}
 \end{figure}
+
+\subsection*{Análisis de resultados}
+
+como puede observarse en las figuras \ref{fig:cliente1}, \ref{fig:cliente2} y \ref{fig:cliente3}, cada uno de los clientes ajusta su hora de acuerdo a la hora recibida del servidor. El cliente uno se atrasó un total de 15 segundos, el cliente dos se adelanto un total de 8 segundos debido a que el valor que se le ingreso fue de -8 segundos y el tercer cliente se adelanto un total de 4 segundos.
+
+Esto permite que todos los clientes tengan una hora sincronizada con el servidor, lo que es fundamental para el correcto funcionamiento de un sistema distribuido.
 
 \section*{Actividad 2}
 
@@ -158,6 +166,21 @@ Para la implementación del algoritmo de relojes lógicos de Lamport visto en cl
     \label{fig:ambiente_actividad2}
 \end{figure}
 
+\subsection*{Resultados}
+
+Para validar el comportamiento del diagrama de la figura \ref{fig:ambiente_actividad2}, se implementó el algoritmo de Lamport en un programa de python. Este programa define los 5 procesesos con sus respectivvos eventos en funciones separadas, y cada acción del algoritmo de Lamport (envio local, envio entre procesos, y recepción de mensajes) se implementa en cada función. A continuación se muestra la salida del programa donde se observa la secuencia de eventos y el calculo de los relojes lógicos para cada evento:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{lamport.png}
+    \caption{Ejecución del cliente 1 para la actividad 1.}
+    \label{fig:ejecucion_lamport}
+\end{figure}
+
+\subsection*{Análisis de resultados}
+
+En la figura \ref{fig:ejecucion_lamport} se puede observar que los relojes lógicos de cada evento son consistentes con el diagrama de la figura \ref{fig:ambiente_actividad2}, es decir, los eventos que ocurren antes de otros tienen un reloj lógico menor, y los eventos que ocurren después tienen un reloj lógico mayor.
+
 \section*{Actividad 3}
 
 Con la idea anterior implementar una solución al algoritmo de relojes vectoriales, usar el ambiente planteado en la actividad anterior. Entregar la ﬁgura con el ambiente sugerido que se programará y con el desarrollo del algoritmo, es decir el reloj vectorial de los eventos.
@@ -259,6 +282,28 @@ Con la idea anterior implementar una solución al algoritmo de relojes vectorial
     \caption{Ambiente sugerido para la actividad 3 con Relojes Vectoriales.}
     \label{fig:ambiente_actividad3}
 \end{figure}
+
+\subsection*{Resultados}
+
+Con la implementación del algoritmo de relojes vectoriales, nos permitio a diferencia del algoritmo de Lamport, conocer que eventos de nuestro sistema distribuido eran concurrentes, es decir, que no existe relación alguna que provoque que un evento ocurra antes que otro, y por lo tanto no se puede determinar un orden entre ellos.
+
+Para su implementacion se partío del mismo programa de python que se utilizó para la actividad 2, y se modificó para que cada proceso mantenga un vector de relojes, y cada vez que ocurre un evento, se actualiza el vector de relojes correspondiente. A continuación se muestra la salida del programa donde se observa la secuencia de eventos y el calculo de los relojes vectoriales para cada evento:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{vectores.png}
+    \caption{Ejecución del cliente 1 para la actividad 1.}
+    \label{fig:ejecucion_vectores}
+\end{figure}
+
+\subsection*{Análisis de resultados}
+Con esta salida podemos comprobar que los eventos \textbf{a}, \textbf{b}, \textbf{n} y \textbf{s} son concurrentes ya que cumplen la condición de que los vectores son bidireccionales. En el diagrama puede verse la concurrecnia en otros eventos como \textbf{c} hacia cualquier evento de los procesos 2, 4 y 5.
+
+\section*{Conclusiones}
+
+Para finalizar, podemos concluir que los algoritmos de sincronización de relojes son fundamentales para el correcto funcionamiento de un sistema distribuido, ya que permiten mantener un orden lógico de los eventos y garantizar la consistencia de los datos impidiendo problemas de sincronización. La implementación de estos algoritmos nos permitió comprender mejor su funcionamiento y aplicarlos en situaciones prácticas. Además de repasar los conceptos teóricos vistos en clase, así como la importancia de elegir el algoritmo adecuado según las necesidades del sistema.
+
+
 
 % \input{template/biblio.tex}
 

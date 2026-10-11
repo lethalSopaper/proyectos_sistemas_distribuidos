@@ -5,8 +5,15 @@
 *.out
 *.xml
 *.run
-cifrado_cesar
 *.txt
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.ilg
+*ind
+*.synctex.gz
+*.zip
 #Exclude executables
 *.exe
 *.qcow2
