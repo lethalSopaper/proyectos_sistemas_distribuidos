@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package difusion;
+
+// Mensaje que el coordinador difunde a todos los nodos
+message Mensaje {
+    string emisor_id = 1;
+    string contenido = 2;
+}
+
+// Respuesta que cada receptor envía de vuelta
+message Confirmacion {
+    string receptor_id = 1;
+    bool recibido = 2;
+    string detalle = 3;
+}
+
+// Servicio gRPC
+service ServicioDifusion {
+    rpc RecibirMensaje (Mensaje) returns (Confirmacion);
+}
