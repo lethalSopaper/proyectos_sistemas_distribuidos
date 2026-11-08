@@ -6,7 +6,15 @@
 *.xml
 *.run
 *.tex
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.ilg
+*.ind
 cifrado_cesar
+__pycache__/
 img/
 template/
 /template/
