@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package gestor_archivos;
+
+// --- MENSAJES PARA CREAR ARCHIVO ---
+message CrearRequest {
+    string nombre_archivo = 1;
+    string contenido = 2;
+}
+message CrearResponse {
+    bool exito = 1;
+    string mensaje = 2;
+}
+
+// --- MENSAJES PARA LEER ARCHIVO ---
+message LeerRequest {
+    string nombre_archivo = 1;
+}
+message LeerResponse {
+    bool exito = 1;
+    string mensaje = 2;
+    string contenido = 3;
+}
+
+// --- MENSAJES PARA AGREGAR CONTENIDO ---
+message AgregarRequest {
+    string nombre_archivo = 1;
+    string contenido = 2;
+}
+message AgregarResponse {
+    bool exito = 1;
+    string mensaje = 2;
+}
+
+// --- MENSAJES PARA LISTAR ARCHIVOS ---
+// Request vacío porque no necesitamos enviar parámetros para listar
+message ListarRequest {}
+
+message ListarResponse {
+    bool exito = 1;
+    string mensaje = 2;
+    repeated string archivos = 3; // "repeated" actúa como una lista/arreglo
+}
+
+// --- MENSAJES PARA ELIMINAR ARCHIVO ---
+message EliminarRequest {
+    string nombre_archivo = 1;
+}
+message EliminarResponse {
+    bool exito = 1;
+    string mensaje = 2;
+}
+
+// --- DEFINICIÓN DEL SERVICIO ---
+service ServicioArchivos {
+    rpc CrearArchivo (CrearRequest) returns (CrearResponse);
+    rpc LeerArchivo (LeerRequest) returns (LeerResponse);
+    rpc AgregarContenido (AgregarRequest) returns (AgregarResponse);
+    rpc ListarArchivos (ListarRequest) returns (ListarResponse);
+    rpc EliminarArchivo (EliminarRequest) returns (EliminarResponse);
+}
