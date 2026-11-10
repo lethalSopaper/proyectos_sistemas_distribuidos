@@ -1,0 +1,140 @@
+% ==========================================
+%              DOCUMENT PACKAGES
+% ==========================================
+
+% --- Core Language & Encoding ---
+\usepackage[english]{babel} % Sets the language and regional settings for English documents
+\usepackage[utf8]{inputenc} % Allows the use of UTF-8 characters in the document
+\usepackage[T1]{fontenc} % Specifies the font encoding
+\usepackage[margin=2cm]{geometry} % Sets the page margins
+
+% --- Colors & Graphics ---
+\usepackage[table,dvipsnames]{xcolor} % Advanced color management
+% \usepackage{color} % Basic package for text and background colors
+\usepackage{graphicx} % Enhanced support for including external images and scaling them
+\usepackage{adjustbox} % Adjusts the size, scaling, and alignment of boxes, images, and tables
+% \usepackage{background} % Allows adding background images or watermarks to pages
+\usepackage{float} % Improves the interface for floating objects and adds the [H] placement
+\usepackage{pdflscape} % Makes landscape pages display correctly on screen in PDF viewers
+\usepackage{pdfpages} % Allows the inclusion of external multi-page PDF documents
+
+% --- Math, Science & Engineering ---
+\usepackage{amsfonts} % Provides extended mathematical fonts
+\usepackage{amsmath} % Provides advanced mathematical typesetting and environments
+\usepackage{amssymb} % Provides extended mathematical symbols
+% \usepackage{amsmath, amssymb} % (Redundant combination line omitted for stability)
+\usepackage{amsthm} % Facilitates the creation of theorem-like environments
+\usepackage{mathtools} % Enhances amsmath with additional math tools and bug fixes
+\usepackage{thmtools} % Extensions and customization options for theorem environments
+\usepackage{nicematrix} % Enhances matrices and tabulars using PGF/TikZ
+\usepackage{xy} % Typesets complex graphs and diagrams
+\usepackage{circuitikz} % Allows drawing of electrical networks and circuits
+
+% --- Typography & Fonts ---
+\usepackage{avant} % Sets the default sans-serif font to Avant Garde
+\usepackage{cantarell} % Sets the default sans-serif font to Cantarell
+\usepackage{charter} % Sets the default roman font to Charter
+\usepackage{cmbright} % Sets the font family to Computer Modern Bright 
+\usepackage{helvet} % Sets the default sans-serif font to Helvetica
+\usepackage{inconsolata} % Sets the default typewriter (monospace) font to Inconsolata
+\usepackage{iwona} % Sets the font family to Iwona 
+\usepackage{kurier} % Sets the font family to Kurier 
+\usepackage{lmodern} % Loads the Latin Modern fonts 
+\usepackage{textcomp} % Provides additional text symbols
+\usepackage{ulem} % Provides various types of text underlining and strikethroughs
+
+% --- Tables & Lists ---
+\usepackage{array} % Extends the array and tabular environments
+\usepackage{arydshln} % Allows dashed lines in arrays and tables
+\usepackage{bigstrut} % Adds custom vertical space in table rows
+\usepackage{booktabs} % Enhances the quality of tables with better horizontal rules
+% \usepackage{colortbl} % Allows coloring of rows, columns, and individual cells in tables
+\usepackage{diagbox} % Creates table cells with diagonal lines
+\usepackage{enumitem} % Provides advanced control over list environments
+\usepackage{longtable} % Allows tables to break across multiple pages
+\usepackage{multirow} % Allows individual table cells to span across multiple rows
+\usepackage{tabularx} % Creates tables with dynamically adjustable-width columns
+\usepackage{pgfplotstable} % Reads and cleanly formats numerical tables directly from CSV
+
+% --- Formatting, Layout & UI ---
+\usepackage{blindtext} % Generates dummy text for testing document layouts
+\usepackage{caption} % Customizes captions in floating environments
+\usepackage{comment} % Allows you to block out large sections of text
+\usepackage{emptypage} % Automatically removes headers and footers on empty pages
+\usepackage{fancyhdr} % Allows complete customization of headers and footers
+\usepackage{fancyvrb} % Enhanced verbatim environments for writing raw code
+\usepackage{framed} % Creates framed, shaded, or differently highlighted text regions
+\usepackage{fullpage} % Quickly sets all page margins to 1 inch
+\usepackage{lipsum} % Generates Lorem Ipsum dummy text
+\usepackage{mdframed} % Creates highly customizable framed environments
+\usepackage{multicol} % Allows intermixing single and multiple text columns
+\usepackage{parskip} % Replaces standard paragraph indentation with vertical spacing
+\usepackage{setspace} % Controls line spacing (single, one-and-a-half, double)
+\usepackage{subcaption} % Supports sub-figures and sub-tables with independent captions
+% \usepackage{subfig} % Older package for sub-figures (subcaption is generally preferred now)
+\usepackage{tcolorbox} % Creates heavily customized colored and framed text boxes
+\usepackage{titlesec} % Customizes the formatting of section, subsection, and chapter headings
+\usepackage{titling} % Provides advanced control over the typesetting of the document title
+
+% --- Bibliographies & References ---
+\usepackage{biblatex} % Advanced, modern bibliographic processing and formatting
+\usepackage{csquotes} % Context-sensitive quotation facilities
+\usepackage{makeidx} % Supports the generation of a document index
+% \usepackage{natbib} % Flexible bibliography support, particularly for author-year citation styles
+
+% --- TikZ & Plotting ---
+\usepackage{tikz} % Advanced package for creating vector graphics and diagrams programmatically
+\usepackage{pgf-pie} % Draws pie charts programmatically using PGF/TikZ
+\usepackage{pgfplots} % Creates high-quality mathematical plots, charts, and graphs
+% \usepackage{fancytikzposter} % Used to create large format academic posters using TikZ
+
+% --- URLs & Hyperlinks ---
+\usepackage{url} % Formats and properly hyphenates long URLs
+\usepackage{breakurl} % Allows line breaks in URLs, especially when compiled with latex -> dvips
+\usepackage{hyperref} % Creates cross-referencing, clickable links, and PDF bookmarks
+
+% --- Code Formatting ---
+\usepackage{listings} % Typesets programming source code with formatting and syntax highlighting
+
+
+% ==========================================
+%           DOCUMENT CONFIGURATION
+% ==========================================
+
+% Custom color definitions
+\definecolor{mygray}{gray}{0.9}
+
+% Hyperlink configuration
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+% Configuración adicional para breaks en URLs
+\def\UrlBreaks{\do\/\do-\do_\do.\do=\do?\do\&}
+\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks\do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z}
+
+%Uncomment the following lines to use a sans-serif font
+%\renewcommand{\familydefault}{\sfdefault}
+
+% TikZ libraries
+\usetikzlibrary{shapes.geometric, positioning, decorations.pathreplacing}
+
+\graphicspath{ {./img/} } % Sets the path for the graphics
+
+\newlist{biblio}{enumerate}{1}
+\setlist[biblio,1]{label=[\arabic*]}
+
+\makeindex
+
+% \tiny
+% \scriptsize
+% \footnotesize
+% \small
+% \normalsize (default size)
+% \large
+% \Large
+% \LARGE
+% \huge
+% \Huge
