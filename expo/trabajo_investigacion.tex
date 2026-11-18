@@ -65,25 +65,27 @@ En el ámbito de las telecomunicaciones móviles, el estándar ETSI GS MEC 003 V
     \item \textbf{Puntos de referencia e integración 5G:} la comunicación interna se articula mediante interfaces estandarizadas (\texttt{Mp1} entre aplicaciones y plataforma, \texttt{Mp3} entre plataformas, \texttt{Mm} de gestión, \texttt{Mx} hacia sistemas externos y \texttt{Mff} para federación). Además, expone servicios nativos de red celular como el \textit{Radio Network Information Service} (RNIS), el servicio de geolocalización y el enrutamiento multiacceso (MTS) (\protect\hyperlink{etsi2024}{ETSI, 2024}).
 \end{itemize}
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
+\small
 \caption{Comparación estructural entre Cloud, Fog y Edge Computing}
 \label{tab:comparativa_paradigmas}
 \renewcommand{\arraystretch}{1.25}
-\begin{tabular}{|p{3.1cm}|p{3.8cm}|p{4.0cm}|p{3.8cm}|}
-\hline
-\textbf{Criterio} & \textbf{Cloud Computing} & \textbf{Fog Computing} & \textbf{Edge Computing} \\
-\hline
-Ubicación del cómputo & Centros de datos centralizados remotos. & Jerarquía distribuida en la red de acceso y nodos intermedios. & Periferia inmediata: dispositivo final, \textit{gateway} o \textit{cloudlet}. \\
-\hline
-Estructura arquitectónica & Centralizada, alta homogeneidad interna. & Multicapa jerárquica y federada (IEEE 1934 / NIST). & Ubicación lógica fija con pocas capas periféricas. \\
-\hline
-Latencia y \textit{jitter} & Alta (decenas a cientos de ms) y variable por WAN. & Baja y predecible (unidades a pocas decenas de ms). & Mínima (milisegundos locales). \\
-\hline
-Conciencia de contexto & Limitada; requiere envío explícito de metadatos. & Alta; conciencia topológica y de ubicación geográfica. & Máxima; acoplamiento directo con el entorno físico. \\
-\hline
-Relación con la nube & Núcleo del procesamiento y almacenamiento global. & Extiende y colabora continuamente con la nube. & Puede operar aislado de la nube o enviar resúmenes. \\
-\hline
+\begin{tabular}{|m{3.1cm}|m{3.8cm}|m{4.0cm}|m{3.8cm}|}
+    \hline
+    \rowcolor{MidnightBlue!80}
+    \textcolor{white}{\textbf{Criterio}} & \textcolor{white}{\textbf{Cloud Computing}} & \textcolor{white}{\textbf{Fog Computing}} & \textcolor{white}{\textbf{Edge Computing}} \\
+    \hline
+    \cellcolor{MidnightBlue!40}\textcolor{white}{\textbf{Ubicación del cómputo}} & Centros de datos centralizados remotos. & Jerarquía distribuida en la red de acceso y nodos intermedios. & Periferia inmediata: dispositivo final, \textit{gateway} o \textit{cloudlet}. \\
+    \hline
+    \cellcolor{MidnightBlue!40}\textcolor{white}{\textbf{Estructura arquitectónica}} & Centralizada, alta homogeneidad interna. & Multicapa jerárquica y federada (IEEE 1934 / NIST). & Ubicación lógica fija con pocas capas periféricas. \\
+    \hline
+    \cellcolor{MidnightBlue!40}\textcolor{white}{\textbf{Latencia y \textit{jitter}}} & Alta (decenas a cientos de ms) y variable por WAN. & Baja y predecible (unidades a pocas decenas de ms). & Mínima (milisegundos locales). \\
+    \hline
+    \cellcolor{MidnightBlue!40}\textcolor{white}{\textbf{Conciencia de contexto}} & Limitada; requiere envío explícito de metadatos. & Alta; conciencia topológica y de ubicación geográfica. & Máxima; acoplamiento directo con el entorno físico. \\
+    \hline
+    \cellcolor{MidnightBlue!40}\textcolor{white}{\textbf{Relación con la nube}} & Núcleo del procesamiento y almacenamiento global. & Extiende y colabora continuamente con la nube. & Puede operar aislado de la nube o enviar resúmenes. \\
+    \hline
 \end{tabular}
 \end{table}
 
