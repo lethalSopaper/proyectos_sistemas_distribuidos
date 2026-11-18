@@ -149,101 +149,101 @@ Pese a su madurez en arquitectura, la adopción generalizada de \textit{Edge} y 
     \item \textbf{Evolución hacia Edge AI y federación 5G/6G:} (\protect\hyperlink{meuser2024}{Meuser y cols., 2024}) destacan que la convergencia entre inteligencia artificial y computación en el borde (\textit{Edge AI}) exige diseñar modelos compactos, aprendizaje federado, planificación consciente de energía bajo cargas en ráfaga y marcos de auditoría y confiabilidad que vinculen el desempeño algorítmico con métricas de sistema como la latencia de cola (\textit{tail latency}). Paralelamente, la federación entre operadores MEC (interfaz \texttt{Mff}) permitirá continuidad de servicio sin interrupciones entre redes celulares distintas (\protect\hyperlink{etsi2024}{ETSI, 2024}).
 \end{enumerate}
 
-\section{Demostración práctica}
+% \section{Demostración práctica}
 
-Con el propósito de validar cuantitativamente las diferencias expuestas entre una arquitectura tradicional centrada en la nube (\textit{Cloud-Only}) y una arquitectura híbrida \textit{Edge/Fog}, se desarrolló una simulación discreta y determinista en Python (\texttt{random.seed(42)}) para un escenario de monitoreo de vibración industrial compuesto por 10 sensores muestreando a 10 Hz durante 10 segundos (1,000 eventos en total), con una tasa de fallas anómalas del 3\% (valores $> 4.5\text{ mm/s}$).
+% Con el propósito de validar cuantitativamente las diferencias expuestas entre una arquitectura tradicional centrada en la nube (\textit{Cloud-Only}) y una arquitectura híbrida \textit{Edge/Fog}, se desarrolló una simulación discreta y determinista en Python (\texttt{random.seed(42)}) para un escenario de monitoreo de vibración industrial compuesto por 10 sensores muestreando a 10 Hz durante 10 segundos (1,000 eventos en total), con una tasa de fallas anómalas del 3\% (valores $> 4.5\text{ mm/s}$).
 
-Los parámetros de la simulación incorporan valores de referencia de la literatura técnica, latencia RTT media a nube central de 74.0 ms con desviación estándar de 18.5 ms (\protect\hyperlink{satyanarayanan2017}{Satyanarayanan, 2017}), latencia local al nodo \textit{Edge/Fog} de 4.2 ms con desviación de 0.6 ms, carga útil JSON de 128 bytes, sobrecarga de cabecera HTTP de 610 bytes hacia la nube y sobrecarga de 24 bytes para MQTT sobre TCP/IP en la red local. En el escenario \textit{Edge/Fog}, el nodo intermedio evalúa localmente cada muestra mediante umbral y puntaje $Z$ en ventana deslizante de 10 lecturas, si detecta una anomalía actúa de inmediato y envía una alerta compacta a la nube, en operación normal, únicamente transmite un resumen agregado cada 10 muestras.
+% Los parámetros de la simulación incorporan valores de referencia de la literatura técnica, latencia RTT media a nube central de 74.0 ms con desviación estándar de 18.5 ms (\protect\hyperlink{satyanarayanan2017}{Satyanarayanan, 2017}), latencia local al nodo \textit{Edge/Fog} de 4.2 ms con desviación de 0.6 ms, carga útil JSON de 128 bytes, sobrecarga de cabecera HTTP de 610 bytes hacia la nube y sobrecarga de 24 bytes para MQTT sobre TCP/IP en la red local. En el escenario \textit{Edge/Fog}, el nodo intermedio evalúa localmente cada muestra mediante umbral y puntaje $Z$ en ventana deslizante de 10 lecturas, si detecta una anomalía actúa de inmediato y envía una alerta compacta a la nube, en operación normal, únicamente transmite un resumen agregado cada 10 muestras.
 
-\begin{lstlisting}[style=pythonstyle, caption={Simulación comparativa Cloud-Only vs. Edge/Fog en telemetría industrial}]
-import random
-import statistics
+% \begin{lstlisting}[style=pythonstyle, caption={Simulación comparativa Cloud-Only vs. Edge/Fog en telemetría industrial}]
+% import random
+% import statistics
 
-random.seed(42)
+% random.seed(42)
 
-NUM_SENSORS = 10
-SAMPLES_PER_SENSOR = 100
-TOTAL_EVENTS = NUM_SENSORS * SAMPLES_PER_SENSOR
+% NUM_SENSORS = 10
+% SAMPLES_PER_SENSOR = 100
+% TOTAL_EVENTS = NUM_SENSORS * SAMPLES_PER_SENSOR
 
-CLOUD_RTT_MEAN_MS, CLOUD_RTT_STD_MS = 74.0, 18.5
-EDGE_RTT_MEAN_MS, EDGE_RTT_STD_MS = 4.2, 0.6
-RAW_PAYLOAD_BYTES = 128
-MQTT_OVERHEAD_BYTES = 24
-HTTP_OVERHEAD_BYTES = 610
+% CLOUD_RTT_MEAN_MS, CLOUD_RTT_STD_MS = 74.0, 18.5
+% EDGE_RTT_MEAN_MS, EDGE_RTT_STD_MS = 4.2, 0.6
+% RAW_PAYLOAD_BYTES = 128
+% MQTT_OVERHEAD_BYTES = 24
+% HTTP_OVERHEAD_BYTES = 610
 
-cloud_latencies, edge_decision_latencies = [], []
-cloud_bytes, edge_lan_bytes, edge_wan_bytes = 0, 0, 0
-cloud_anomalies, edge_anomalies = 0, 0
+% cloud_latencies, edge_decision_latencies = [], []
+% cloud_bytes, edge_lan_bytes, edge_wan_bytes = 0, 0, 0
+% cloud_anomalies, edge_anomalies = 0, 0
 
-for s in range(NUM_SENSORS):
-    window = []
-    for t in range(SAMPLES_PER_SENSOR):
-        is_fault = (random.random() < 0.03)
-        val = random.gauss(6.2, 0.4) if is_fault else random.gauss(2.5, 0.3)
+% for s in range(NUM_SENSORS):
+%     window = []
+%     for t in range(SAMPLES_PER_SENSOR):
+%         is_fault = (random.random() < 0.03)
+%         val = random.gauss(6.2, 0.4) if is_fault else random.gauss(2.5, 0.3)
 
-        # Escenario A: Cloud-Only (envio crudo por HTTP a la nube)
-        rtt_c = max(25.0, random.gauss(CLOUD_RTT_MEAN_MS, CLOUD_RTT_STD_MS))
-        cloud_latencies.append(rtt_c + random.uniform(3.0, 6.0))
-        cloud_bytes += (RAW_PAYLOAD_BYTES + HTTP_OVERHEAD_BYTES)
-        if val > 4.0:
-            cloud_anomalies += 1
+%         # Escenario A: Cloud-Only (envio crudo por HTTP a la nube)
+%         rtt_c = max(25.0, random.gauss(CLOUD_RTT_MEAN_MS, CLOUD_RTT_STD_MS))
+%         cloud_latencies.append(rtt_c + random.uniform(3.0, 6.0))
+%         cloud_bytes += (RAW_PAYLOAD_BYTES + HTTP_OVERHEAD_BYTES)
+%         if val > 4.0:
+%             cloud_anomalies += 1
 
-        # Escenario B: Edge/Fog (MQTT local + filtro Z-score + resumen)
-        rtt_e = max(1.0, random.gauss(EDGE_RTT_MEAN_MS, EDGE_RTT_STD_MS))
-        edge_decision_latencies.append(rtt_e + random.uniform(0.4, 0.9))
-        edge_lan_bytes += (RAW_PAYLOAD_BYTES + MQTT_OVERHEAD_BYTES)
+%         # Escenario B: Edge/Fog (MQTT local + filtro Z-score + resumen)
+%         rtt_e = max(1.0, random.gauss(EDGE_RTT_MEAN_MS, EDGE_RTT_STD_MS))
+%         edge_decision_latencies.append(rtt_e + random.uniform(0.4, 0.9))
+%         edge_lan_bytes += (RAW_PAYLOAD_BYTES + MQTT_OVERHEAD_BYTES)
 
-        window.append(val)
-        if len(window) > 10:
-            window.pop(0)
-        mean_w = statistics.mean(window)
-        std_w = statistics.stdev(window) if len(window) > 1 else 0.3
-        z = (val - mean_w) / max(std_w, 0.1)
+%         window.append(val)
+%         if len(window) > 10:
+%             window.pop(0)
+%         mean_w = statistics.mean(window)
+%         std_w = statistics.stdev(window) if len(window) > 1 else 0.3
+%         z = (val - mean_w) / max(std_w, 0.1)
 
-        if val > 4.0 or z > 3.0:
-            edge_anomalies += 1
-            edge_wan_bytes += (96 + MQTT_OVERHEAD_BYTES)
-        elif (t + 1) % 10 == 0:
-            edge_wan_bytes += (112 + MQTT_OVERHEAD_BYTES)
+%         if val > 4.0 or z > 3.0:
+%             edge_anomalies += 1
+%             edge_wan_bytes += (96 + MQTT_OVERHEAD_BYTES)
+%         elif (t + 1) % 10 == 0:
+%             edge_wan_bytes += (112 + MQTT_OVERHEAD_BYTES)
 
-bw_red = (1 - (edge_wan_bytes / cloud_bytes)) * 100
-lat_red = (1 - (statistics.mean(edge_decision_latencies)
-                / statistics.mean(cloud_latencies))) * 100
-print(f"Cloud media: {statistics.mean(cloud_latencies):.2f} ms, WAN: {cloud_bytes} B")
-print(f"Edge  media: {statistics.mean(edge_decision_latencies):.2f} ms, WAN: {edge_wan_bytes} B")
-print(f"Reduccion latencia: {lat_red:.2f}%, Reduccion WAN: {bw_red:.2f}%")
-\end{lstlisting}
+% bw_red = (1 - (edge_wan_bytes / cloud_bytes)) * 100
+% lat_red = (1 - (statistics.mean(edge_decision_latencies)
+%                 / statistics.mean(cloud_latencies))) * 100
+% print(f"Cloud media: {statistics.mean(cloud_latencies):.2f} ms, WAN: {cloud_bytes} B")
+% print(f"Edge  media: {statistics.mean(edge_decision_latencies):.2f} ms, WAN: {edge_wan_bytes} B")
+% print(f"Reduccion latencia: {lat_red:.2f}%, Reduccion WAN: {bw_red:.2f}%")
+% \end{lstlisting}
 
-Los resultados obtenidos tras ejecutar la simulación sobre los 1,000 eventos se resumen en la Tabla \ref{tab:resultados_simulacion}.
+% Los resultados obtenidos tras ejecutar la simulación sobre los 1,000 eventos se resumen en la Tabla \ref{tab:resultados_simulacion}.
 
-\begin{table}[H]
-\centering
-\caption{Resultados cuantitativos de la simulación (1,000 eventos de telemetría)}
-\label{tab:resultados_simulacion}
-\renewcommand{\arraystretch}{1.25}
-\begin{adjustbox}{width=\textwidth}
-\begin{tabular}{|l|c|c|c|}
-    \hline
-    \rowcolor{MidnightBlue!80}
-    \textcolor{white}{\textbf{Métrica evaluada}} & \textcolor{white}{\textbf{Cloud-Only (HTTP)}} & \textcolor{white}{\textbf{Edge/Fog (MQTT)}} & \textcolor{white}{\textbf{Variación}} \\
-    \hline
-    \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Latencia media de decisión}} & 78.65 ms & 4.86 ms & $-93.82\%$ \\
-    \hline
-    \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Latencia percentil 95 (P95)}} & 108.65 ms & 5.85 ms & $-94.62\%$ \\
-    \hline
-    \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Jitter} (desviación estándar)} & 18.39 ms & 0.61 ms & $-96.68\%$ \\
-    \hline
-    \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Tráfico total en WAN hacia la nube}} & 720.70 KB (738,000 B) & 16.27 KB (16,656 B) & $-97.74\%$ \\
-    \hline
-    \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Tráfico en red local (LAN)}} & --- & 148.44 KB & Procesado local \\
-    \hline
-    \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Anomalías detectadas}} & 30 / 30 & 30 / 30 & 100\% equivalencia \\
-    \hline
-\end{tabular}
-\end{adjustbox}
-\end{table}
+% \begin{table}[H]
+% \centering
+% \caption{Resultados cuantitativos de la simulación (1,000 eventos de telemetría)}
+% \label{tab:resultados_simulacion}
+% \renewcommand{\arraystretch}{1.25}
+% \begin{adjustbox}{width=\textwidth}
+% \begin{tabular}{|l|c|c|c|}
+%     \hline
+%     \rowcolor{MidnightBlue!80}
+%     \textcolor{white}{\textbf{Métrica evaluada}} & \textcolor{white}{\textbf{Cloud-Only (HTTP)}} & \textcolor{white}{\textbf{Edge/Fog (MQTT)}} & \textcolor{white}{\textbf{Variación}} \\
+%     \hline
+%     \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Latencia media de decisión}} & 78.65 ms & 4.86 ms & $-93.82\%$ \\
+%     \hline
+%     \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Latencia percentil 95 (P95)}} & 108.65 ms & 5.85 ms & $-94.62\%$ \\
+%     \hline
+%     \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Jitter} (desviación estándar)} & 18.39 ms & 0.61 ms & $-96.68\%$ \\
+%     \hline
+%     \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Tráfico total en WAN hacia la nube}} & 720.70 KB (738,000 B) & 16.27 KB (16,656 B) & $-97.74\%$ \\
+%     \hline
+%     \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Tráfico en red local (LAN)}} & --- & 148.44 KB & Procesado local \\
+%     \hline
+%     \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Anomalías detectadas}} & 30 / 30 & 30 / 30 & 100\% equivalencia \\
+%     \hline
+% \end{tabular}
+% \end{adjustbox}
+% \end{table}
 
-El análisis de los resultados muestra dos ventajas claras bajo las condiciones modeladas: primero, al trasladar la lógica de detección al nodo \textit{Edge/Fog}, la latencia promedio se reduce en un 93.82\% y el \textit{jitter} desciende a 0.61 ms frente a 18.39 ms, haciendo viable el disparo de protecciones mecánicas en tiempo real sin sacrificar la tasa de detección (30 de 30 anomalías). Segundo, la combinación de cabeceras ligeras (MQTT) y agregación local disminuye el tráfico hacia la nube en un 97.74\%, ilustrando cómo el \textit{Fog Computing} descongestiona el enlace WAN y reduce los costos de ingestión en la nube.
+% El análisis de los resultados muestra dos ventajas claras bajo las condiciones modeladas: primero, al trasladar la lógica de detección al nodo \textit{Edge/Fog}, la latencia promedio se reduce en un 93.82\% y el \textit{jitter} desciende a 0.61 ms frente a 18.39 ms, haciendo viable el disparo de protecciones mecánicas en tiempo real sin sacrificar la tasa de detección (30 de 30 anomalías). Segundo, la combinación de cabeceras ligeras (MQTT) y agregación local disminuye el tráfico hacia la nube en un 97.74\%, ilustrando cómo el \textit{Fog Computing} descongestiona el enlace WAN y reduce los costos de ingestión en la nube.
 
 \section{Conclusiones}
 
