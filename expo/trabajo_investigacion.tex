@@ -120,7 +120,7 @@ Las arquitecturas \textit{Edge} y \textit{Fog Computing} atienden cinco limitaci
 \begin{enumerate}
     \item \textbf{Latencia incompatible con la percepción humana y el control físico:} mediciones desde 260 puntos globales hacia instancias óptimas de Amazon EC2 registran una latencia media de ida y vuelta (RTT) de 74 ms, sin sumar el primer salto inalámbrico ni el \textit{jitter} de red (\protect\hyperlink{satyanarayanan2017}{Satyanarayanan, 2017}). Esto resulta insuficiente para sistemas de realidad virtual con seguimiento cefálico ($<16$ ms) o detección vocal (4 ms). Al acercar el cómputo, pruebas de descarga en \textit{cloudlets} han reducido el tiempo de respuesta en reconocimiento facial de 900 ms a 169 ms y disminuido la latencia de asistencia cognitiva en 80 a 200 ms (\protect\hyperlink{shi2016}{Shi y cols., 2016}).
     \item \textbf{Saturación de ancho de banda en la red dorsal:} un vehículo autónomo genera alrededor de 1 GB/s de datos de sensores y una aeronave Boeing 787 produce cerca de 5 GB/s, volúmenes inviables de transmitir en bruto hacia la nube en tiempo real (\protect\hyperlink{shi2016}{Shi y cols., 2016}). De igual modo, 12,000 usuarios transmitiendo video continuo saturarían una red metropolitana; el análisis en el borde reduce el tráfico ascendente únicamente a metadatos y eventos relevantes (\protect\hyperlink{satyanarayanan2017}{Satyanarayanan, 2017}).
-    \item \textbf{Consumo energético en dispositivos móviles:} transmitir datos a centros de datos distantes penaliza la batería. En experimentos de realidad aumentada, procesar una operación en un \textit{cloudlet} local consumió 1.1 J frente a 3.3 J en el dispositivo móvil y entre 3.1 J y 9.4 J al descargar hacia distintas regiones de AWS; en reconocimiento facial, el costo fue de 1.1 J en \textit{cloudlet} frente a 5.4--9.5 J en AWS (\protect\hyperlink{satyanarayanan2017}{Satyanarayanan, 2017}).
+    \item \textbf{Consumo energético en dispositivos móviles:} transmitir datos a centros de datos distantes penaliza la batería. En experimentos de realidad aumentada, procesar una operación en un \textit{cloudlet} local consumió 1.1 [J] frente a 3.3 [J] en el dispositivo móvil y entre 3.1 [J] y 9.4 [J] al descargar hacia distintas regiones de AWS, en reconocimiento facial, el costo fue de 1.1 [J] en \textit{cloudlet} frente a 5.4--9.5 [J] en AWS (\protect\hyperlink{satyanarayanan2017}{Satyanarayanan, 2017}).
     \item \textbf{Privacidad y soberanía de los datos:} el procesamiento local evita exponer información clínica, industrial o doméstica en servidores de terceros, permitiendo incluso esquemas de borde colaborativo donde múltiples organizaciones consultan resultados agregados sin centralizar sus datos crudos (\protect\hyperlink{shi2016}{Shi y cols., 2016}).
     \item \textbf{Vulnerabilidad ante desconexiones de nube:} mediante operaciones desconectadas y posterior reintegración con resolución de conflictos, los nodos de borde enmascaran fallos de conectividad, ataques de denegación de servicio o entornos hostiles manteniendo la continuidad operativa local (\protect\hyperlink{satyanarayanan2017}{Satyanarayanan, 2017}).
 \end{enumerate}
@@ -140,7 +140,7 @@ En términos sectoriales, estas plataformas sustentan despliegues reales de manu
 
 \section{Retos}
 
-Pese a su madurez arquitectónica, la adopción generalizada de \textit{Edge} y \textit{Fog Computing} enfrenta desafíos técnicos complejos que marcan las líneas actuales de investigación:
+Pese a su madurez en arquitectura, la adopción generalizada de \textit{Edge} y \textit{Fog Computing} enfrenta desafíos técnicos complejos que marcan las líneas actuales de investigación:
 
 \begin{enumerate}
     \item \textbf{Seguridad en entornos heterogéneos y físicamente expuestos:} a diferencia de un centro de datos perimetralmente resguardado, los nodos de borde operan en ubicaciones físicas vulnerables y suelen coexistir con sensores incapaces de ejecutar criptografía pesada (\protect\hyperlink{shi2016}{Shi y cols., 2016}). Se requiere consolidar arquitecturas \textit{zero-trust} apoyadas en raíces de confianza en hardware (TPM), arranque medido y aislamiento estricto entre inquilinos.
@@ -153,9 +153,9 @@ Pese a su madurez arquitectónica, la adopción generalizada de \textit{Edge} y 
 
 Con el propósito de validar cuantitativamente las diferencias expuestas entre una arquitectura tradicional centrada en la nube (\textit{Cloud-Only}) y una arquitectura híbrida \textit{Edge/Fog}, se desarrolló una simulación discreta y determinista en Python (\texttt{random.seed(42)}) para un escenario de monitoreo de vibración industrial compuesto por 10 sensores muestreando a 10 Hz durante 10 segundos (1,000 eventos en total), con una tasa de fallas anómalas del 3\% (valores $> 4.5\text{ mm/s}$).
 
-Los parámetros de la simulación incorporan valores de referencia de la literatura técnica: latencia RTT media a nube central de 74.0 ms con desviación estándar de 18.5 ms (\protect\hyperlink{satyanarayanan2017}{Satyanarayanan, 2017}), latencia local al nodo \textit{Edge/Fog} de 4.2 ms con desviación de 0.6 ms, carga útil JSON de 128 bytes, sobrecarga de cabecera HTTP de 610 bytes hacia la nube y sobrecarga de 24 bytes para MQTT sobre TCP/IP en la red local. En el escenario \textit{Edge/Fog}, el nodo intermedio evalúa localmente cada muestra mediante umbral y puntaje $Z$ en ventana deslizante de 10 lecturas: si detecta una anomalía actúa de inmediato y envía una alerta compacta a la nube; en operación normal, únicamente transmite un resumen agregado cada 10 muestras.
+Los parámetros de la simulación incorporan valores de referencia de la literatura técnica, latencia RTT media a nube central de 74.0 ms con desviación estándar de 18.5 ms (\protect\hyperlink{satyanarayanan2017}{Satyanarayanan, 2017}), latencia local al nodo \textit{Edge/Fog} de 4.2 ms con desviación de 0.6 ms, carga útil JSON de 128 bytes, sobrecarga de cabecera HTTP de 610 bytes hacia la nube y sobrecarga de 24 bytes para MQTT sobre TCP/IP en la red local. En el escenario \textit{Edge/Fog}, el nodo intermedio evalúa localmente cada muestra mediante umbral y puntaje $Z$ en ventana deslizante de 10 lecturas, si detecta una anomalía actúa de inmediato y envía una alerta compacta a la nube, en operación normal, únicamente transmite un resumen agregado cada 10 muestras.
 
-\begin{lstlisting}[language=Python, caption={Simulación comparativa Cloud-Only vs. Edge/Fog en telemetría industrial}]
+\begin{lstlisting}[style=pythonstyle, caption={Simulación comparativa Cloud-Only vs. Edge/Fog en telemetría industrial}]
 import random
 import statistics
 
@@ -216,28 +216,31 @@ print(f"Reduccion latencia: {lat_red:.2f}%, Reduccion WAN: {bw_red:.2f}%")
 
 Los resultados obtenidos tras ejecutar la simulación sobre los 1,000 eventos se resumen en la Tabla \ref{tab:resultados_simulacion}.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Resultados cuantitativos de la simulación (1,000 eventos de telemetría)}
 \label{tab:resultados_simulacion}
 \renewcommand{\arraystretch}{1.25}
+\begin{adjustbox}{width=\textwidth}
 \begin{tabular}{|l|c|c|c|}
-\hline
-\textbf{Métrica evaluada} & \textbf{Cloud-Only (HTTP)} & \textbf{Edge/Fog (MQTT)} & \textbf{Variación} \\
-\hline
-Latencia media de decisión & 78.65 ms & 4.86 ms & $-93.82\%$ \\
-\hline
-Latencia percentil 95 (P95) & 108.65 ms & 5.85 ms & $-94.62\%$ \\
-\hline
-\textit{Jitter} (desviación estándar) & 18.39 ms & 0.61 ms & $-96.68\%$ \\
-\hline
-Tráfico total en WAN hacia la nube & 720.70 KB (738,000 B) & 16.27 KB (16,656 B) & $-97.74\%$ \\
-\hline
-Tráfico en red local (LAN) & --- & 148.44 KB & Procesado local \\
-\hline
-Anomalías detectadas & 30 / 30 & 30 / 30 & 100\% equivalencia \\
-\hline
+    \hline
+    \rowcolor{MidnightBlue!80}
+    \textcolor{white}{\textbf{Métrica evaluada}} & \textcolor{white}{\textbf{Cloud-Only (HTTP)}} & \textcolor{white}{\textbf{Edge/Fog (MQTT)}} & \textcolor{white}{\textbf{Variación}} \\
+    \hline
+    \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Latencia media de decisión}} & 78.65 ms & 4.86 ms & $-93.82\%$ \\
+    \hline
+    \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Latencia percentil 95 (P95)}} & 108.65 ms & 5.85 ms & $-94.62\%$ \\
+    \hline
+    \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Jitter} (desviación estándar)} & 18.39 ms & 0.61 ms & $-96.68\%$ \\
+    \hline
+    \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Tráfico total en WAN hacia la nube}} & 720.70 KB (738,000 B) & 16.27 KB (16,656 B) & $-97.74\%$ \\
+    \hline
+    \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Tráfico en red local (LAN)}} & --- & 148.44 KB & Procesado local \\
+    \hline
+    \cellcolor{MidnightBlue!40} \textcolor{white}{\textbf{Anomalías detectadas}} & 30 / 30 & 30 / 30 & 100\% equivalencia \\
+    \hline
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 El análisis de los resultados muestra dos ventajas claras bajo las condiciones modeladas: primero, al trasladar la lógica de detección al nodo \textit{Edge/Fog}, la latencia promedio se reduce en un 93.82\% y el \textit{jitter} desciende a 0.61 ms frente a 18.39 ms, haciendo viable el disparo de protecciones mecánicas en tiempo real sin sacrificar la tasa de detección (30 de 30 anomalías). Segundo, la combinación de cabeceras ligeras (MQTT) y agregación local disminuye el tráfico hacia la nube en un 97.74\%, ilustrando cómo el \textit{Fog Computing} descongestiona el enlace WAN y reduce los costos de ingestión en la nube.
