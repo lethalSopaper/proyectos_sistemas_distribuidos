@@ -1,0 +1,108 @@
+% ==========================================
+%         GLOBAL LISTINGS SETTINGS
+% ==========================================
+\lstset{
+	basicstyle=\ttfamily\small,
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	stepnumber=1,
+	numbersep=10pt,
+	backgroundcolor=\color{white},
+	showspaces=false,
+	showstringspaces=false,
+	breaklines=true,
+	frame=single,
+	tabsize=2, 
+    captionpos=b, 
+    lineskip=-1pt,
+	extendedchars=true,
+	literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{\textquestiondown}}1 {¡}{{\textexclamdown}}1
+}
+
+% ==========================================
+%            LANGUAGE: SQL
+% ==========================================
+\lstdefinestyle{sqlstyle}{
+	language=SQL,
+	keywordstyle=\color{blue}\bfseries,
+	commentstyle=\color[rgb]{0,0.5,0}\itshape,
+	stringstyle=\color{red}
+}
+
+% ==========================================
+%            LANGUAGE: VHDL
+% ==========================================
+\lstdefinelanguage{VHDL}{
+	morekeywords={entity, architecture, signal, port, in, out, inout, begin, end, process, if, then, else, elsif, case, when, others, for, while, loop, wait, library, use, std_logic, std_logic_vector, integer, boolean, rising_edge, falling_edge, component, generic, map, downto, to, and, or, not, xor, nand, nor, xnor},
+	morecomment=[l]{--},
+	morestring=[b]",
+	sensitive=false,
+	alsoletter={_}
+}
+
+\lstdefinestyle{vhdl}{
+	language=VHDL,
+	keywordstyle=\color{blue}\bfseries,
+	commentstyle=\color[rgb]{0,0.6,0}\itshape,
+	stringstyle=\color{red}
+}
+
+% ==========================================
+%              LANGUAGE: C
+% ==========================================
+\lstdefinestyle{cstyle}{
+	language=C,
+	keywordstyle=\color{blue}\bfseries,
+	commentstyle=\color[rgb]{0,0.5,0}\itshape,
+	stringstyle=\color{red},
+	directivestyle=\color{purple},
+    tabsize=4 % Overrides the global tabsize of 2 for C code specifically
+}
+
+% ==========================================
+%             LANGUAGE: C++
+% ==========================================
+\lstdefinestyle{cppstyle}{
+	language=C++,
+	keywordstyle=\color{blue}\bfseries,
+	commentstyle=\color[rgb]{0,0.5,0}\itshape,
+	stringstyle=\color{red},
+	directivestyle=\color{purple},
+    tabsize=4
+}
+
+% ==========================================
+%           LANGUAGE: PYTHON
+% ==========================================
+\lstdefinestyle{pythonstyle}{
+	language=Python,
+	keywordstyle=\color{blue}\bfseries,
+	commentstyle=\color[rgb]{0,0.5,0}\itshape,
+	stringstyle=\color{red},
+    % Python relies heavily on indentation, so keeping tabsize aligned is important
+    tabsize=4
+}
+
+% ==========================================
+%             LANGUAGE: BASH
+% ==========================================
+\lstdefinestyle{bashstyle}{
+	language=bash,
+	keywordstyle=\color{blue}\bfseries,
+	commentstyle=\color[rgb]{0,0.5,0}\itshape,
+	stringstyle=\color{red},
+    % Bash variables often use $, so we can highlight them dynamically if needed
+    moredelim=[s][\color{orange}]{\$\{}{\}}
+}
+
+% ==========================================
+%           LANGUAGE: ASSEMBLY
+% ==========================================
+\lstdefinestyle{asmstyle}{
+	language=[x86masm]Assembler,
+	keywordstyle=\color{blue}\bfseries,
+	commentstyle=\color[rgb]{0,0.5,0}\itshape,
+	stringstyle=\color{red},
+    % Adding common ARM/Microcontroller instructions for better highlighting
+    morekeywords={ldr, str, mov, cmp, add, sub, b, bl, bx, push, pop, svc, eor, and, orr, lsl, lsr}
+}
