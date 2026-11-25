@@ -1,0 +1,54 @@
+services:
+  p1:
+    build: .
+    container_name: p1
+    environment:
+      - NODE_NAME=P1
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - dist_net
+
+  p2:
+    build: .
+    container_name: p2
+    environment:
+      - NODE_NAME=P2
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - dist_net
+
+  p3:
+    build: .
+    container_name: p3
+    environment:
+      - NODE_NAME=P3
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - dist_net
+
+  p4:
+    build: .
+    container_name: p4
+    environment:
+      - NODE_NAME=P4
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - dist_net
+
+  p5:
+    build: .
+    container_name: p5
+    environment:
+      - NODE_NAME=P5
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - dist_net
+
+networks:
+  dist_net:
+    driver: bridge

@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package cluster;
+
+service NodeService {
+  // Comunicación entre nodos
+  rpc ReceiveMessage (MessageRequest) returns (AckResponse);
+
+  // Disparadores de eventos (invocados vía docker exec)
+  rpc ExecuteLocalTask (TaskRequest) returns (AckResponse);
+  rpc SendMessage (SendRequest) returns (AckResponse);
+  rpc BroadcastMessage (BroadcastRequest) returns (AckResponse);
+}
+
+message MessageRequest {
+  string sender = 1;
+  string receiver = 2;
+  string content = 3;
+  repeated int32 vector = 4;
+}
+
+message TaskRequest {
+  string task_name = 1;
+}
+
+message SendRequest {
+  string target = 1;
+  string content = 2;
+}
+
+message BroadcastRequest {
+  string content = 1;
+}
+
+message AckResponse {
+  bool success = 1;
+  string info = 2;
+  repeated int32 vector = 3;
+}
