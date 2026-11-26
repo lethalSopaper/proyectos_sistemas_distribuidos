@@ -13,7 +13,7 @@ class NodeServicer(cluster_pb2_grpc.NodeServiceServicer):
         self.node_name = node_name
         self.idx = NODES.index(node_name)
         self.clock = [0, 0, 0, 0, 0]
-        self.lock = threading.Lock()
+        self.lock = threading.Lock() # mecanismo de exclusion mutua
         os.makedirs("/app/logs", exist_ok=True)
         self.log_path = f"/app/logs/{node_name.lower()}.log"
 
@@ -67,7 +67,8 @@ class NodeServicer(cluster_pb2_grpc.NodeServiceServicer):
     def ReceiveMessage(self, request, context):
         received_vec = list(request.vector)
         with self.lock:
-            self.clock = [max(local, rem) for local, rem in zip(self.clock, received_vec)]
+            for i in range(len(self.clock)):
+                self.clock[i] = max(self.clock[i], received_vec[i])
             self.clock[self.idx] += 1
             updated_vec = list(self.clock)
             self._log(

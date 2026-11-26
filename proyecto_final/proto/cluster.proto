@@ -3,10 +3,7 @@ syntax = "proto3";
 package cluster;
 
 service NodeService {
-  // Comunicación entre nodos
   rpc ReceiveMessage (MessageRequest) returns (AckResponse);
-
-  // Disparadores de eventos (invocados vía docker exec)
   rpc ExecuteLocalTask (TaskRequest) returns (AckResponse);
   rpc SendMessage (SendRequest) returns (AckResponse);
   rpc BroadcastMessage (BroadcastRequest) returns (AckResponse);

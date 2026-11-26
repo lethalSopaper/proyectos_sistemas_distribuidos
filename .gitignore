@@ -26,3 +26,4 @@ __pycache__/
 #Exclude executables
 *.exe
 *.qcow2
+explicacion_archivos.md
